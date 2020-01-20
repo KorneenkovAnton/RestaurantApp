@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="eMail">eMail</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone number</string>
+    <string name="err_msg_login">Enter valid eMail</string>
+    <string name="err_msg_password">Wrong password</string>
+    <string name="err_msg_name">Name must not hold back numbers</string>
+    <string name="err_msg_lastanme">LastName must not hold back numbers</string>
+    <string name="err_msg_address">Wrong address</string>
+    <string name="login_button">Enter</string>
+    <string name="registration_button">Registration</string>
+    <string name="logout_button">Logout</string>
+    <string name="err_msg_wrong_login_or_password">Wrong login or password</string>
+    <string name="err_msg_connection_timed_out">Connection timed out</string>
+    <string name="err_msg_server_error">Server error</string>
+    <string name="err_validation_exception">Fill in all the fields</string>
+    <string name="title_activity_menu" translatable="false">MenuActivity</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="action_settings" translatable="false">Settings</string>
 </resources>

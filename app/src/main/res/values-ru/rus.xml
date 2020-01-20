@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мое приложение</string>
+    <string name="eMail">eMail</string>
+    <string name="password">Пароль</string>
+    <string name="name">Имя</string>
+    <string name="lastName">Фамилия</string>
+    <string name="address">Адрес</string>
+    <string name="phone">Номер телефона</string>
+    <string name="err_msg_login">Введите действующий email адрес</string>
+    <string name="err_msg_password">Неверный пароль</string>
+    <string name="err_msg_name">Имя не должно содержать цифр</string>
+    <string name="err_msg_lastanme">Фамилия не должна содержать цифр</string>
+    <string name="err_msg_address">Неправильный адрес</string>
+    <string name="login_button">Войти</string>
+    <string name="registration_button">Регистрация</string>
+</resources>

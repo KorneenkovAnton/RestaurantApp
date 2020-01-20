@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="logout_button">Выйти</string>
+    <string name="err_msg_wrong_login_or_password">Неверный логин или пароль</string>
+    <string name="err_msg_connection_timed_out">Неудалось подключиться</string>
+    <string name="err_msg_server_error">Ошибка сервера</string>
+    <string name="err_validation_exception">Заполните все поля</string>
+</resources>

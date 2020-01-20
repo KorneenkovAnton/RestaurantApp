@@ -1,7 +1,5 @@
 package com.example.myapplication.service;
 
-import com.example.myapplication.JSONPlaceHolderApi;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -11,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static  NetworkService instance;
-    private final String BASE_URL = "http://192.168.8.116:8080/resto/V1/auth/";//10.0.3.2
+    private final String BASE_URL = "http://192.168.8.116:8080/resto/V1/auth/";
     private Retrofit retrofit;
 
     private NetworkService() {
