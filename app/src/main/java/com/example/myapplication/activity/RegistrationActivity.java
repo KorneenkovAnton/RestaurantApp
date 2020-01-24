@@ -22,46 +22,64 @@ import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity implements Callback<Void> {
 
+    private Button b;
+    private EditText editLogin;
+    private TextInputLayout editLoginLayout;
+    private EditText editPassword;
+    private TextInputLayout editPasswordLayout;
+    private EditText editName;
+    private TextInputLayout editNameLayout;
+    private EditText editLastName;
+    private TextInputLayout editLastNameLayout;
+    private EditText editAddress;
+    private TextInputLayout editAddressLayout;
+    private EditText editPhone;
+    private TextInputLayout editPhoneLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_activity);
+        init();
+    }
 
-        Button b = findViewById(R.id.register_button);
+    public void init(){
 
-        EditText editLogin = findViewById(R.id.login);
-        TextInputLayout editLoginLayout = findViewById(R.id.input_layout_login);
+        b = findViewById(R.id.register_button);
+
+        editLogin = findViewById(R.id.login);
+        editLoginLayout = findViewById(R.id.input_layout_login);
         editLogin.setFilters(new InputFilter[]{new RegexInputFilter(UserValidator.EMAIL_REGEX)});
         editLogin.addTextChangedListener(new RegistrationTextWathcer(editLogin,
                 UserValidator.EMAIL_REGEX, editLoginLayout, this));
 
-        EditText editPassword = findViewById(R.id.password);
-        TextInputLayout editPasswordLayout = findViewById(R.id.input_layout_password);
+        editPassword = findViewById(R.id.password);
+        editPasswordLayout = findViewById(R.id.input_layout_password);
         editPassword.setFilters(new InputFilter[]{new RegexInputFilter(UserValidator.PASSWORD_REGEX)});
         editPassword.addTextChangedListener(new RegistrationTextWathcer(editPassword,
                 UserValidator.PASSWORD_REGEX, editPasswordLayout, this));
 
-        EditText editName = findViewById(R.id.name);
-        TextInputLayout editNameLayout = findViewById(R.id.input_layout_name);
+        editName = findViewById(R.id.name);
+        editNameLayout = findViewById(R.id.input_layout_name);
         editName.setFilters(new InputFilter[]{new RegexInputFilter(UserValidator.NAME_REGEX)});
         editName.addTextChangedListener(new RegistrationTextWathcer(editName,
                 UserValidator.NAME_REGEX, editNameLayout, this));
 
-        EditText editLastName = findViewById(R.id.lastname);
-        TextInputLayout editLastNameLayout = findViewById(R.id.input_layout_lastname);
+        editLastName = findViewById(R.id.lastname);
+        editLastNameLayout = findViewById(R.id.input_layout_lastname);
         editLastName.setFilters(new InputFilter[]{new RegexInputFilter(UserValidator.NAME_REGEX)});
         editLastName.addTextChangedListener(new RegistrationTextWathcer(editLastName,
                 UserValidator.NAME_REGEX, editLastNameLayout, this));
 
-        EditText editAddress = findViewById(R.id.address);
-        TextInputLayout editAddressLayout = findViewById(R.id.input_layout_address);
+        editAddress = findViewById(R.id.address);
+        editAddressLayout = findViewById(R.id.input_layout_address);
         editAddress.setFilters(new InputFilter[]{new RegexInputFilter(UserValidator.ADDRESS_REGEX)});
         editAddress.addTextChangedListener(new RegistrationTextWathcer(editAddress,
                 UserValidator.ADDRESS_REGEX, editAddressLayout, this));
 
-        EditText editPhone = findViewById(R.id.phonenumber);
-        TextInputLayout editPhoneLayout = findViewById(R.id.input_layout_phonenumber);
+        editPhone = findViewById(R.id.phonenumber);
+        editPhoneLayout = findViewById(R.id.input_layout_phonenumber);
         editPhone.addTextChangedListener(new RegistrationTextWathcer(editPhone,UserValidator.PHONE_REGEX,editPhoneLayout,this));
 
         b.setOnClickListener(new RegistrationListener(this, editLogin, editPassword, editName, editLastName, editAddress, editPhone));

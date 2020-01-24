@@ -1,11 +1,11 @@
 package com.example.myapplication.validator;
 
-import com.example.myapplication.DTO.RegistrationRequestDto;
+import com.example.myapplication.DTO.UserDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserValidator implements Validator<RegistrationRequestDto> {
+public class UserValidator implements Validator<UserDto> {
 
     public static final String NAME_REGEX = "[а-яА-ЯёЁa-zA-Z '-]+$";
     public static final String PASSWORD_REGEX = "^(?=.*\\d)(?=.*[a-z])(?!.*\\s).*$";
@@ -14,7 +14,7 @@ public class UserValidator implements Validator<RegistrationRequestDto> {
     public static final String ADDRESS_REGEX = "^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9]*";
 
     @Override
-    public boolean validate(RegistrationRequestDto entity) {
+    public boolean validate(UserDto entity) {
 
         return validateString(entity.getEmail(),EMAIL_REGEX) && validateString(entity.getPassword(),PASSWORD_REGEX) &&
                 validateString(entity.getName(),NAME_REGEX) && validateString(entity.getLastname(),NAME_REGEX) &&

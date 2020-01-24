@@ -1,120 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.RegistrationActivity"
-    android:orientation="vertical">
-
-<com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/input_layout_login"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="20dp"
-    >
-
-    <EditText
-        android:id="@+id/login"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:layout_margin="20dp"
-        android:hint="@string/eMail"
-        />
+        android:layout_height="match_parent"
+        tools:context=".activity.RegistrationActivity"
+        android:orientation="vertical">
 
-</com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        >
-        <EditText
-            android:id="@+id/password"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:layout_margin="20dp"
-            android:hint="@string/password"
-            />
+            android:layout_marginHorizontal="20dp"
+            >
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_margin="20dp"
+                android:hint="@string/eMail"
+                />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        >
-        <EditText
-            android:id="@+id/name"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:layout_margin="20dp"
-            android:hint="@string/name"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginHorizontal="20dp"
+            >
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:layout_margin="20dp"
+                android:hint="@string/password"
+                />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_lastname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        >
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/lastname"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:layout_margin="20dp"
-            android:hint="@string/lastName"
-            />
+            android:layout_marginHorizontal="20dp"
+            >
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:layout_margin="20dp"
+                android:hint="@string/name"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        >
-
-        <EditText
-            android:id="@+id/address"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:layout_margin="20dp"
-            android:hint="@string/address"
-            />
+            android:layout_marginHorizontal="20dp"
+            >
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:layout_margin="20dp"
+                android:hint="@string/lastName"
+                />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_phonenumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        >
-        <com.santalu.maskedittext.MaskEditText
-            android:id="@+id/phonenumber"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:layout_margin="20dp"
-            android:hint="@string/phone"
-            app:met_mask = "+7(###)#######"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginHorizontal="20dp"
+            >
 
-    <Button
-        android:id="@+id/register_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="@string/registration_button" />
-</LinearLayout>
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:layout_margin="20dp"
+                android:hint="@string/address"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_phonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            >
+            <com.santalu.maskedittext.MaskEditText
+                android:id="@+id/phonenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:layout_margin="20dp"
+                android:hint="@string/phone"
+                app:met_mask = "+7(###)#######"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/registration_button" />
+    </LinearLayout>
+</ScrollView>

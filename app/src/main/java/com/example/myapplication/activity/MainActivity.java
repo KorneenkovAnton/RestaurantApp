@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.DTO.LoginResponseDto;
 import com.example.myapplication.R;
 import com.example.myapplication.listeners.LoginListener;
+import com.example.myapplication.service.TokenService;
 import com.example.myapplication.validator.RegexInputFilter;
 import com.example.myapplication.validator.RegistrationTextWathcer;
 import com.example.myapplication.validator.UserValidator;
@@ -29,18 +30,28 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, Callback<LoginResponseDto> {
 
+    private Button loginButton;
+    private Button registrationButton;
+    private EditText editLogin;
+    private EditText editPassword;
+    private TextInputLayout editLoginLayout;
+    private TextInputLayout editPasswordLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+    }
 
-        Button loginButton = findViewById(R.id.login_button);
-        Button registrationButton = findViewById(R.id.registration_button);
-        EditText editLogin = findViewById(R.id.login);
-        EditText editPassword = findViewById(R.id.password);
-        TextInputLayout editLoginLayout = findViewById(R.id.input_layout_login);
-        TextInputLayout editPasswordLayout = findViewById(R.id.input_layout_password);
+    public void init(){
+        loginButton = findViewById(R.id.login_button);
+        registrationButton = findViewById(R.id.registration_button);
+        editLogin = findViewById(R.id.login);
+        editPassword = findViewById(R.id.password);
+        editLoginLayout = findViewById(R.id.input_layout_login);
+        editPasswordLayout = findViewById(R.id.input_layout_password);
 
         loginButton.setOnClickListener(new LoginListener( this, editLogin, editPassword));
 
@@ -53,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editPassword.addTextChangedListener(new RegistrationTextWathcer(editPassword,
                 UserValidator.PASSWORD_REGEX, editPasswordLayout, this));
     }
-
 
     @Override
     public void onClick(View v) {
@@ -69,10 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, Main2Activity.class);
             intent.putExtra("accessToken", loginResponseDto.getAccessToken());
 
+
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("refreshToken", loginResponseDto.getRefreshToken());
-            editor.commit();
+            new TokenService().writeRefreshToken(sharedPreferences,loginResponseDto.getRefreshToken());
 
             startActivity(intent);
             finish();

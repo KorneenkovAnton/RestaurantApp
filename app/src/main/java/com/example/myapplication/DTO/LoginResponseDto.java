@@ -11,4 +11,5 @@ public class LoginResponseDto {
     private String accessToken;
     @SerializedName("refreshToken")
     private String refreshToken;
+
 }

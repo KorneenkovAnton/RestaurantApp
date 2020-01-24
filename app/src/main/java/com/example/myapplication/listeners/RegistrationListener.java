@@ -3,7 +3,7 @@ package com.example.myapplication.listeners;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.myapplication.DTO.RegistrationRequestDto;
+import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.service.NetworkService;
 
 import retrofit2.Callback;
@@ -33,7 +33,7 @@ public class RegistrationListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        RegistrationRequestDto requestDto = new RegistrationRequestDto(editUsName.getText().toString(),editPass.getText().toString(),
+        UserDto requestDto = new UserDto(editUsName.getText().toString(),editPass.getText().toString(),
                 editName.getText().toString(),editLastName.getText().toString(),editAddress.getText().toString()
                 ,editPhone.getText().toString(),"USER");
 

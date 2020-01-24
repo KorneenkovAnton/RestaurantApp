@@ -3,7 +3,7 @@ package com.example.myapplication.DTO;
 import lombok.Data;
 
 @Data
-public class RegistrationRequestDto {
+public class UserDto {
     private String email;
     private String password;
     private String name;
@@ -12,7 +12,7 @@ public class RegistrationRequestDto {
     private String phonenumber;
     private String role;
 
-    public RegistrationRequestDto(String email, String password, String name, String lastname, String address, String phonenumber, String role) {
+    public UserDto(String email, String password, String name, String lastname, String address, String phonenumber, String role) {
         this.email = email;
         this.password = password;
         this.name = name;

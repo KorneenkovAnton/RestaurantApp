@@ -33,7 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Callback<
 
         TokenService tokenService = new TokenService();
 
-        if (isNetworkAvailable()) {
+       if (isNetworkAvailable()) {
             if (refreshToken != null) {
                 tokenService.setCallback(this);
                 tokenService.refreshToken(refreshToken);
@@ -45,7 +45,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Callback<
         }else{
             Toast.makeText(this,"Check internet",Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -54,7 +53,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Callback<
         LoginResponseDto loginResponseDto = response.body();
 
         if(loginResponseDto != null){
-            Intent intent = new Intent(this, Main2Activity.class);
+               Intent intent = new Intent(this, Main2Activity.class);
                intent.putExtra("accessToken",loginResponseDto.getAccessToken());
                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                SharedPreferences.Editor editor = sharedPreferences.edit();
