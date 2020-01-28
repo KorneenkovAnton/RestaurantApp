@@ -1,8 +1,6 @@
 package com.example.myapplication.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,8 @@ import com.example.myapplication.DTO.LoginResponseDto;
 import com.example.myapplication.DTO.UpdateUserDto;
 import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.R;
+import com.example.myapplication.async.AsyncTaskResult;
 import com.example.myapplication.async.UpdateUserAsyncTask;
-import com.example.myapplication.service.NetworkService;
 import com.example.myapplication.service.TokenService;
 import com.santalu.maskedittext.MaskEditText;
 
@@ -72,7 +70,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void changeUser(){
-        userDto.setPassword(editPassword.getText().toString());
+        userDto.setPassword("Test1234");
         userDto.setName(editName.getText().toString());
         userDto.setLastname(editLastName.getText().toString());
         userDto.setAddress(editAddress.getText().toString());
@@ -83,10 +81,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         changeUser();
-        LoginResponseDto loginResponseDto = new UpdateUserAsyncTask().execute(new UpdateUserDto(token,userDto)).get();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        AsyncTaskResult<LoginResponseDto> result = new UpdateUserAsyncTask().execute(new UpdateUserDto(token,userDto)).get();
+        LoginResponseDto loginResponseDto = result.getResult();
         token = loginResponseDto.getAccessToken();
-        new TokenService().writeRefreshToken(sharedPreferences,loginResponseDto.getRefreshToken());
+        new TokenService().saveTokens(loginResponseDto.getRefreshToken(),loginResponseDto.getAccessToken());
 
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment(token)).commit();

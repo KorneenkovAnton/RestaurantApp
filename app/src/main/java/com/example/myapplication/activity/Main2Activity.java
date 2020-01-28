@@ -13,15 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.myapplication.DTO.LoginResponseDto;
+import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.R;
+import com.example.myapplication.async.AsyncTaskResult;
 import com.example.myapplication.async.UserAsyncTask;
 import com.example.myapplication.fragment.CartFragment;
 import com.example.myapplication.fragment.HomeFragment;
 import com.example.myapplication.fragment.OrderFragment;
 import com.example.myapplication.fragment.ProfileFragment;
-import com.example.myapplication.fragment.TypesFragment;
 import com.example.myapplication.service.TokenService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -36,6 +37,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
     private NavigationView navigationView;
     private FloatingActionButton floatingActionButton;
     private String accessToken;
+    private TokenService tokenService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +65,25 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         switch (menuItem.getItemId()){
             case R.id.profile:{
                 UserAsyncTask userAsyncTask = new UserAsyncTask();
-                floatingActionButton.hide();
                 try {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ProfileFragment(userAsyncTask.execute(accessToken).get(), accessToken)).commit();
+                    AsyncTaskResult<UserDto> result = userAsyncTask.execute(accessToken).get();
+                    if(result.getException() == null){
+                        if(result.getStatus() == 200 && result.getResult() != null){
+                            floatingActionButton.hide();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    new ProfileFragment(result.getResult(), accessToken)).commit();
+                        }else {
+                            if(result.getStatus() == 403){
+                                /*String refreshToken = sharedPreferences.getString("refreshToken", null);
+                                //LoginResponseDto loginResponseDto = tokenService.refreshToken(refreshToken);
+                                tokenService.saveTokens(sharedPreferences,refreshToken);*/
+                            }
+                        }
+                    }
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 break;
             }
             case R.id.orders:{
@@ -85,7 +99,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
                 break;
             }
             case R.id.logout:{
-                new TokenService().deleteTokens(sharedPreferences);
+                tokenService.deleteTokens(sharedPreferences);
                 floatingActionButton.hide();
                 startActivity(new Intent(this, MainActivity.class));
             }
@@ -96,10 +110,6 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
 
     private void init(){
         accessToken = getIntent().getStringExtra("accessToken");
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container,new TypesFragment(accessToken),"TypesFragment");
-        fragmentTransaction.commit();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -116,6 +126,8 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
 
         floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);
+
+        tokenService = new TokenService();
     }
 
     @Override

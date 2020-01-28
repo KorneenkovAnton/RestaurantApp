@@ -1,7 +1,10 @@
 package com.example.myapplication.service;
 
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -9,8 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static  NetworkService instance;
-    //private final String BASE_URL = "http://192.168.8.116:8080/resto/V1/";
-    private final String BASE_URL = "http://192.168.0.118:8080/resto/V1/";
+    private final String BASE_URL = "http://192.168.8.116:8080/resto/V1/";
+    //private final String BASE_URL = "http://192.168.0.118:8080/resto/V1/";
     private Retrofit retrofit;
 
     private NetworkService() {
@@ -19,8 +22,13 @@ public class NetworkService {
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1,TimeUnit.MINUTES)
                 .writeTimeout(1,TimeUnit.MINUTES)
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
-                .setLevel(HttpLoggingInterceptor.Level.BODY).setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                .addInterceptor(new AuthenticationInterceptor())
+                .addInterceptor(new HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BASIC)
+                        .setLevel(HttpLoggingInterceptor.Level.BODY)
+                        .setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                .dispatcher(new Dispatcher(new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                        60, TimeUnit.SECONDS, new SynchronousQueue<Runnable>())))
                 .build();
 
         retrofit = new Retrofit.Builder()

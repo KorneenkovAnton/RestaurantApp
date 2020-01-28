@@ -28,17 +28,14 @@ public interface JSONPlaceHolderApi {
     Call<LoginResponseDto> refresh(@Body RefreshRequestDto requestDto);
 
     @GET("dishType/getAll/")
-    Call<List<TypeDto>> getTypes(@Header("Authorization") String token);
-
-    @GET("user/update")
-    Call<LoginResponseDto> updateUser(@Body UserDto requestDto);
+    Call<List<TypeDto>> getTypes();
 
     @GET("dish/getByType/{type}")
-    Call<List<DishDto>> getDishesByType(@Header("Authorization") String token,@Path("type") String type);
+    Call<List<DishDto>> getDishesByType(@Path("type") String type);
 
     @GET("user/getForUpdate")
-    Call<UserDto> getUserForUpdate(@Header("Authorization") String token);
+    Call<UserDto> getUserForUpdate();
 
     @PUT("user/update")
-    Call<LoginResponseDto> updateUser(@Header("Authorization") String token,@Body UserDto userDto);
+    Call<LoginResponseDto> updateUser(@Body UserDto userDto);
 }

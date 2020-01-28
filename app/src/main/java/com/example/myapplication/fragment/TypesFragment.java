@@ -1,5 +1,6 @@
 package com.example.myapplication.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.DTO.TypeDto;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.TypeAdapter;
+import com.example.myapplication.async.AsyncTaskResult;
 import com.example.myapplication.async.TypesAsyncTask;
 import com.example.myapplication.listeners.RecyclerTouchListener;
 
@@ -29,6 +31,7 @@ public class TypesFragment extends Fragment implements View.OnClickListener {
     private TypeAdapter typeAdapter = new TypeAdapter();
     private String token;
     private List<TypeDto> typeDtos;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -49,7 +52,6 @@ public class TypesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         init();
-        //createTypes();
     }
 
     public void init(){
@@ -72,14 +74,14 @@ public class TypesFragment extends Fragment implements View.OnClickListener {
 
     @SneakyThrows
     private void createTypes(){
-        typeDtos = new TypesAsyncTask().execute(token).get();
+        AsyncTaskResult<List<TypeDto>> result = new TypesAsyncTask().execute(token).get();
+        System.out.println(result.getStatus());
+        typeDtos = result.getResult();
         typeAdapter.setItems(typeDtos);
     }
 
     @Override
     public void onClick(View v) {
-
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(token)).commit();
-        //getActivity().getSupportFragmentManager().beginTransaction().attach()
     }
 }

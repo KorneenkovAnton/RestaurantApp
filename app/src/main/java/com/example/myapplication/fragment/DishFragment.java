@@ -70,19 +70,13 @@ public class DishFragment extends Fragment implements View.OnClickListener {
 
     @SneakyThrows
     private void createDishes(){
-        dishDtos = new DishesAsyncTask().execute(token,typeName).get();
+
+        dishDtos = new DishesAsyncTask().execute(token,typeName).get().getResult();
         dishAdapter.setItems(dishDtos);
     }
 
     @Override
     public void onClick(View v) {
-        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment(token)).commit();
-        TypesFragment typesFragment = (TypesFragment) getActivity().getSupportFragmentManager().findFragmentByTag("TypesFragment");
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,typesFragment);
-        /*FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.detach(this);
-        fragmentTransaction.attach(typesFragment);
-        fragmentTransaction.addToBackStack(null);*/
-
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment(token)).commit();
     }
 }

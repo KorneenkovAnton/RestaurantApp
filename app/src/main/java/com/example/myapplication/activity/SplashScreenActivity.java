@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.DTO.LoginResponseDto;
 import com.example.myapplication.R;
+import com.example.myapplication.service.DBHelper;
 import com.example.myapplication.service.TokenService;
 
 import retrofit2.Call;
@@ -22,28 +23,30 @@ import retrofit2.Response;
 
 public class SplashScreenActivity extends AppCompatActivity implements Callback<LoginResponseDto> {
 
+    private SharedPreferences sharedPreferences;
+    private String refreshToken;
+    private TokenService tokenService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String refreshToken = sharedPreferences.getString("refreshToken", null);
-
-        TokenService tokenService = new TokenService();
+        init();
 
        if (isNetworkAvailable()) {
-            if (refreshToken != null) {
+           /*if (refreshToken != null) {
                 tokenService.setCallback(this);
                 tokenService.refreshToken(refreshToken);
                 finish();
-            } else {
+            } else {*/
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
-            }
+            /*}
+           startActivity(new Intent(this, MainActivity.class));
+           finish();*/
         }else{
             Toast.makeText(this,"Check internet",Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
@@ -55,10 +58,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Callback<
         if(loginResponseDto != null){
                Intent intent = new Intent(this, Main2Activity.class);
                intent.putExtra("accessToken",loginResponseDto.getAccessToken());
-               SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-               SharedPreferences.Editor editor = sharedPreferences.edit();
-               editor.putString("refreshToken", loginResponseDto.getRefreshToken());
-               editor.commit();
+               //tokenService.saveTokens(sharedPreferences,loginResponseDto.getRefreshToken());
 
                startActivity(intent);
         }else {
@@ -70,13 +70,20 @@ public class SplashScreenActivity extends AppCompatActivity implements Callback<
     @Override
     public void onFailure(Call<LoginResponseDto> call, Throwable t) {
         Toast.makeText(getApplicationContext(), getString(R.string.err_msg_server_error), Toast.LENGTH_SHORT).show();
-          Intent intent = new Intent(this,MainActivity.class);
-           startActivity(intent);
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 
     private boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null;
+    }
+
+    private void init(){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        refreshToken = sharedPreferences.getString("refreshToken", null);
+        DBHelper.getInstance(getApplicationContext());
+        tokenService= new TokenService();
     }
 }

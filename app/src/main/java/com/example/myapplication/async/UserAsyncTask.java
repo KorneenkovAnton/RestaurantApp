@@ -1,19 +1,26 @@
 package com.example.myapplication.async;
 
-import android.os.AsyncTask;
-
 import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.service.NetworkService;
 
-import lombok.SneakyThrows;
+import java.io.IOException;
 
-public class UserAsyncTask extends AsyncTask<String,Void, UserDto> {
-    @SneakyThrows
+import retrofit2.Response;
+
+public class UserAsyncTask extends CustomAsyncTask<String,Void, UserDto> {
+
     @Override
-    protected UserDto doInBackground(String... token) {
-        return NetworkService.getInstance()
-                .getJSONApi()
-                .getUserForUpdate("Token_"+token[0])
-                .execute().body();
+    protected AsyncTaskResult<UserDto> doInBackground(String... token) {
+        try {
+            Response<UserDto> response = NetworkService.getInstance()
+                    .getJSONApi()
+                    .getUserForUpdate()
+                    .execute();
+            return new AsyncTaskResult<>(response.body(),response.code());
+        } catch (IOException e) {
+            return new AsyncTaskResult<>(e);
+        }
     }
+
+
 }
