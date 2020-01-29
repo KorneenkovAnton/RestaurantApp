@@ -2,18 +2,12 @@ package com.example.myapplication.service;
 
 import android.app.Service;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
-
-import com.example.myapplication.DTO.LoginResponseDto;
-
-import retrofit2.Callback;
 
 public class TokenService extends Service {
     private SQLiteDatabase database;
@@ -24,13 +18,8 @@ public class TokenService extends Service {
         database = dbHelper.getReadableDatabase();
     }
 
-    private Callback<LoginResponseDto> callback;
-
-    public void deleteTokens(SharedPreferences sharedPreferences){
-        SharedPreferences.Editor editor = getSharedPreferences("Tokens",Context.MODE_PRIVATE).edit();
-        editor.remove("accessToken");
-        editor.remove("refreshToken");
-        editor.commit();
+    public void deleteTokens(){
+        database.delete("token",null,null);
     }
 
     public void saveTokens(String refreshToken, String accessToken){
@@ -44,11 +33,11 @@ public class TokenService extends Service {
         if(id == -1){
             database.update("token",row1,"name=?",new String[]{"accessToken"});
             database.update("token",row2,"name=?",new String[]{"refreshToken"});
+            System.out.println("Tokens updated");
         }else {
             database.insertWithOnConflict("token",null,row2,SQLiteDatabase.CONFLICT_IGNORE);
+            System.out.println("New token add");
         }
-
-        System.out.println("Done");
     }
 
     public String getAccessToken(){

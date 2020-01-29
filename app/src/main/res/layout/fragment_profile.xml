@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView01"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+<!--    tools:context="com.example.myapplication.fragment.ProfileFragment"-->
+
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -39,22 +42,30 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_password"
+        <Button
+            android:id="@+id/showChangePopUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            >
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:layout_margin="20dp"
-                android:hint="@string/password"
-                />
+            android:text="Change password"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/input_layout_password"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            >-->
+<!--            <EditText-->
+<!--                android:id="@+id/password"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="textPassword"-->
+<!--                android:layout_margin="20dp"-->
+<!--                android:hint="@string/password"-->
+<!--                />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_name"

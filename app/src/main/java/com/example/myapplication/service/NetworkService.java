@@ -27,8 +27,6 @@ public class NetworkService {
                         .setLevel(HttpLoggingInterceptor.Level.BASIC)
                         .setLevel(HttpLoggingInterceptor.Level.BODY)
                         .setLevel(HttpLoggingInterceptor.Level.HEADERS))
-                .dispatcher(new Dispatcher(new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                        60, TimeUnit.SECONDS, new SynchronousQueue<Runnable>())))
                 .build();
 
         retrofit = new Retrofit.Builder()

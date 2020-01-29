@@ -6,13 +6,13 @@ import lombok.Data;
 public class DishDto extends BaseEntity{
     private String name;
     private String description;
-    private Integer coast;
+    private Integer cost;
     private Boolean availability;
 
-    public DishDto(String name, String description, Integer coast, Boolean availability) {
+    public DishDto(String name, String description, Integer cost, Boolean availability) {
         this.name = name;
         this.description = description;
-        this.coast = coast;
+        this.cost = cost;
         this.availability = availability;
     }
 

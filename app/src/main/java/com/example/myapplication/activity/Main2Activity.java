@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -31,12 +32,10 @@ import java.util.concurrent.ExecutionException;
 
 public class Main2Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , View.OnClickListener {
 
-    private SharedPreferences sharedPreferences;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private FloatingActionButton floatingActionButton;
-    private String accessToken;
     private TokenService tokenService;
 
     @Override
@@ -46,7 +45,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         init();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment(accessToken)).commit();
+                new HomeFragment()).commit();
         navigationView.setCheckedItem(R.id.main);
         floatingActionButton.show();
     }
@@ -66,18 +65,14 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
             case R.id.profile:{
                 UserAsyncTask userAsyncTask = new UserAsyncTask();
                 try {
-                    AsyncTaskResult<UserDto> result = userAsyncTask.execute(accessToken).get();
+                    AsyncTaskResult<UserDto> result = userAsyncTask.execute().get();
                     if(result.getException() == null){
                         if(result.getStatus() == 200 && result.getResult() != null){
                             floatingActionButton.hide();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new ProfileFragment(result.getResult(), accessToken)).commit();
+                                    new ProfileFragment(result.getResult())).commit();
                         }else {
-                            if(result.getStatus() == 403){
-                                /*String refreshToken = sharedPreferences.getString("refreshToken", null);
-                                //LoginResponseDto loginResponseDto = tokenService.refreshToken(refreshToken);
-                                tokenService.saveTokens(sharedPreferences,refreshToken);*/
-                            }
+                            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (ExecutionException | InterruptedException e) {
@@ -95,11 +90,11 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
             case R.id.main:{
                 floatingActionButton.show();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeFragment(accessToken)).commit();
+                        new HomeFragment()).commit();
                 break;
             }
             case R.id.logout:{
-                tokenService.deleteTokens(sharedPreferences);
+                tokenService.deleteTokens();
                 floatingActionButton.hide();
                 startActivity(new Intent(this, MainActivity.class));
             }
@@ -109,8 +104,6 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
     }
 
     private void init(){
-        accessToken = getIntent().getStringExtra("accessToken");
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -121,8 +114,6 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.DTO.DishDto;
+import com.example.myapplication.DTO.OrderDetailsDto;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
-    private List<DishDto> dishDtos = new ArrayList<>();
+    private List<OrderDetailsDto> dishDtos = new ArrayList<>();
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,7 +31,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.bind(dishDtos.get(position));
     }
 
-    public void setItems(Collection<DishDto> dishDtos){
+    public void setItems(Collection<OrderDetailsDto> dishDtos){
         this.dishDtos.addAll(dishDtos);
         notifyDataSetChanged();
     }
@@ -56,10 +56,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private TextView cartDishNum;
         private TextView cartDishPrice;
 
-        public void bind(DishDto dishDto){
-            cartDishName.setText(dishDto.getName());
-            cartDishNum.setText("1");
-            cartDishPrice.setText("1$");
+        public void bind(OrderDetailsDto orderDetailsDto){
+            cartDishName.setText(orderDetailsDto.getDishDto().getName());
+            cartDishNum.setText(String.valueOf(orderDetailsDto.getNum()));
+            cartDishPrice.setText(String.valueOf(orderDetailsDto.getDishDto().getCost()*orderDetailsDto.getNum()));
         }
 
         public CartViewHolder(@NonNull View itemView) {

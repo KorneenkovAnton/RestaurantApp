@@ -11,7 +11,6 @@ import okhttp3.Response;
 
 public class AuthenticationInterceptor implements Interceptor {
 
-    private String refreshToken;
     private TokenService tokenService;
 
     @Override
@@ -33,21 +32,23 @@ public class AuthenticationInterceptor implements Interceptor {
 
             retrofit2.Response<LoginResponseDto> responseDto = NetworkService.getInstance()
                     .getJSONApi()
-                    .refresh(new RefreshRequestDto(refreshToken))
+                    .refresh(new RefreshRequestDto(tokenService.getRefreshToken()))
                     .execute();
 
-            Request newReq = original.newBuilder()
-                    .header("Authorization","Token_"+responseDto.body().getAccessToken())
-                    .build();
-
-            return chain.proceed(newReq);
-
+            if(responseDto.code() == 200){
+                tokenService.saveTokens(responseDto.body().getRefreshToken(),responseDto.body().getAccessToken());
+                Request newReq = original.newBuilder()
+                        .header("Authorization","Token_" + responseDto.body().getAccessToken())
+                        .build();
+                return chain.proceed(newReq);
+            }else {
+                return response.newBuilder().code(401).build();
+            }
        }
         return response;
     }
 
     public AuthenticationInterceptor() {
         tokenService = new TokenService();
-        refreshToken = tokenService.getRefreshToken();
     }
 }

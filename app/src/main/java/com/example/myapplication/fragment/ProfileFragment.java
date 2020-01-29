@@ -1,11 +1,17 @@
 package com.example.myapplication.fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +21,7 @@ import com.example.myapplication.DTO.LoginResponseDto;
 import com.example.myapplication.DTO.UpdateUserDto;
 import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.R;
+import com.example.myapplication.activity.MainActivity;
 import com.example.myapplication.async.AsyncTaskResult;
 import com.example.myapplication.async.UpdateUserAsyncTask;
 import com.example.myapplication.service.TokenService;
@@ -26,18 +33,22 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private UserDto userDto;
     private EditText editEmail;
-    private EditText editPassword;
     private EditText editName;
     private EditText editLastName;
     private EditText editAddress;
     private MaskEditText editPhone;
     private Button updateButton;
-    private String token;
+    private Dialog changePasswordDialog;
+    private Button showPupUp;
+    private EditText oldPassword;
+    private EditText newPassword;
+    private EditText new2Password;
+    private Button changePassword;
+    private TextView txtClose;
 
 
-    public ProfileFragment(UserDto userDto, String token) {
+    public ProfileFragment(UserDto userDto) {
         this.userDto = userDto;
-        this.token = token;
     }
 
     @Nullable
@@ -55,8 +66,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         editEmail = getView().findViewById(R.id.login);
         editEmail.setEnabled(false);
         editEmail.setText(userDto.getEmail());
-        editPassword = getView().findViewById(R.id.password);
-        editPassword.setText(userDto.getPassword());
         editName = getView().findViewById(R.id.name);
         editName.setText(userDto.getName());
         editLastName = getView().findViewById(R.id.lastname);
@@ -67,6 +76,43 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         editPhone.setText(userDto.getPhonenumber());
         updateButton = getView().findViewById(R.id.update_button);
         updateButton.setOnClickListener(this);
+        showPupUp = getView().findViewById(R.id.showChangePopUp);
+        changePasswordDialog = new Dialog(getContext());
+        changePasswordDialog.setContentView(R.layout.pop_up_password);
+        oldPassword = changePasswordDialog.findViewById(R.id.old_password);
+        newPassword = changePasswordDialog.findViewById(R.id.new_password);
+        new2Password = changePasswordDialog.findViewById(R.id.new2_password);
+        changePassword = changePasswordDialog.findViewById(R.id.update_password_button);
+        txtClose = changePasswordDialog.findViewById(R.id.txt_close);
+
+        txtClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePasswordDialog.dismiss();
+            }
+        });
+
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newPassword.getText().toString().equals(new2Password.getText().toString())){
+                    //
+                    // userDto.setPassword(newPassword.getText().toString());
+                    Toast.makeText(getContext(),"Changed",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(),"Different passwords",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        showPupUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePasswordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                changePasswordDialog.show();
+            }
+        });
+
     }
 
     public void changeUser(){
@@ -81,12 +127,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         changeUser();
-        AsyncTaskResult<LoginResponseDto> result = new UpdateUserAsyncTask().execute(new UpdateUserDto(token,userDto)).get();
-        LoginResponseDto loginResponseDto = result.getResult();
-        token = loginResponseDto.getAccessToken();
-        new TokenService().saveTokens(loginResponseDto.getRefreshToken(),loginResponseDto.getAccessToken());
+        AsyncTaskResult<LoginResponseDto> result = new UpdateUserAsyncTask().execute(new UpdateUserDto(userDto)).get();
+        if(result.getStatus() == 200){
+            LoginResponseDto loginResponseDto = result.getResult();
+            new TokenService().saveTokens(loginResponseDto.getRefreshToken(),loginResponseDto.getAccessToken());
 
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment(token)).commit();
+            Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+        }else {
+            Toast.makeText(getContext(),"Need to re-login",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), MainActivity.class));
+        }
     }
 }

@@ -41,9 +41,11 @@ public class OrderFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         orderAdapter = new OrderAdapter();
         recyclerView.setAdapter(orderAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView ,new RecyclerTouchListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView ,
+                new RecyclerTouchListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new OrderDetailFragment()).commit();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new OrderDetailFragment()).commit();
                     }
 
                     @Override public void onLongItemClick(View view, int position) {

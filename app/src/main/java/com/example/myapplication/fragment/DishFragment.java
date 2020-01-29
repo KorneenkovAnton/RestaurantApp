@@ -1,21 +1,24 @@
 package com.example.myapplication.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DTO.DishDto;
 import com.example.myapplication.R;
+import com.example.myapplication.activity.MainActivity;
 import com.example.myapplication.adapter.DishAdapter;
+import com.example.myapplication.async.AsyncTaskResult;
 import com.example.myapplication.async.DishesAsyncTask;
 import com.example.myapplication.listeners.RecyclerTouchListener;
 
@@ -28,12 +31,10 @@ public class DishFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView;
     private Button back;
     private DishAdapter dishAdapter;
-    private String token;
     private String typeName;
     List<DishDto> dishDtos;
 
-    public DishFragment(String token, String typeName) {
-        this.token = token;
+    public DishFragment(String typeName) {
         this.typeName = typeName;
     }
 
@@ -59,7 +60,7 @@ public class DishFragment extends Fragment implements View.OnClickListener {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView ,new RecyclerTouchListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new DishDetailFragment(dishDtos.get(position), token, typeName)).commit();
+                                new DishDetailFragment(dishDtos.get(position), typeName)).commit();
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
@@ -70,13 +71,27 @@ public class DishFragment extends Fragment implements View.OnClickListener {
 
     @SneakyThrows
     private void createDishes(){
-
-        dishDtos = new DishesAsyncTask().execute(token,typeName).get().getResult();
-        dishAdapter.setItems(dishDtos);
+        AsyncTaskResult<List<DishDto>> result = new DishesAsyncTask().execute(typeName).get();
+        if(result.getStatus() == 200 ){
+            if(!result.getResult().isEmpty()){
+                dishDtos = result.getResult();
+                dishAdapter.setItems(dishDtos);
+            }else {
+                Toast.makeText(getContext(),"Empty type",Toast.LENGTH_SHORT).show();
+                onClick(getView());
+            }
+        }else {
+            if(result.getStatus() == 401){
+                startActivity(new Intent(getContext(), MainActivity.class));
+            }else {
+                Toast.makeText(getContext(),R.string.err_msg_server_error,Toast.LENGTH_SHORT).show();
+                onClick(getView());
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment(token)).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment()).commit();
     }
 }

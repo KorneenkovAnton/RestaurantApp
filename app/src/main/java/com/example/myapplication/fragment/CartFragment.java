@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.DTO.DishDto;
+import com.example.myapplication.DTO.OrderDetailsDto;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.CartAdapter;
+import com.example.myapplication.entity.Cart;
 import com.example.myapplication.listeners.RecyclerTouchListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,8 +25,10 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView;
     private Button back;
     private CartAdapter cartAdapter;
+    private Cart cart;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_cart,container,false);
     }
 
@@ -37,34 +39,40 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init(){
+        cart = Cart.getInstance();
         recyclerView = getView().findViewById(R.id.recycler_view_cart);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         back = getView().findViewById(R.id.cart_back);
         back.setOnClickListener(this);
         cartAdapter = new CartAdapter();
         recyclerView.setAdapter(cartAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView ,new RecyclerTouchListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView ,
+                new RecyclerTouchListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        cartAdapter.deleteItem(position);
+                        cart.getDishes().remove(position);
+                        cartAdapter.clearItems();
+                        cartAdapter.setItems(cart.getDishes());
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
                     }
                 })
         );
-
     }
 
     private void createDishes(){
-        Collection<DishDto> dishDtos = new ArrayList<>();
-        dishDtos.add(new DishDto("Dish 1"));
-        dishDtos.add(new DishDto("dish 2"));
-        dishDtos.add(new DishDto("dish 3"));
-        cartAdapter.setItems(dishDtos);
+        Collection<OrderDetailsDto> dishDtos = cart.getDishes();
+        if(dishDtos != null) {
+            cartAdapter.setItems(dishDtos);
+        }else {
+            dishDtos = new ArrayList<>();
+            dishDtos.add(new OrderDetailsDto());
+        }
     }
 
     @Override
     public void onClick(View v) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment("")).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new TypesFragment()).commit();
     }
 }

@@ -16,11 +16,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Button buttonHere;
     private Button buttonDelivery;
-    private String token;
-
-    public HomeFragment(String token) {
-        this.token = token;
-    }
 
     @Nullable
     @Override
@@ -38,6 +33,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment(token)).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TypesFragment()).commit();
     }
 }

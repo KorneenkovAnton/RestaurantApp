@@ -13,8 +13,7 @@ public class DishesAsyncTask extends CustomAsyncTask<String,Void,List<DishDto>> 
     @SneakyThrows
     @Override
     protected AsyncTaskResult<List<DishDto>> doInBackground(String... strings) {
-        String typeName= strings[1];
-        String token = strings[0];
+        String typeName= strings[0];
 
         Response<List<DishDto>> response = NetworkService.getInstance()
                 .getJSONApi()

@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(loginResponseDto != null) {
             Intent intent = new Intent(this, Main2Activity.class);
-
             new TokenService().saveTokens(loginResponseDto.getRefreshToken(),loginResponseDto.getAccessToken());
 
             startActivity(intent);
