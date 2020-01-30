@@ -3,7 +3,7 @@ package com.example.myapplication.DTO;
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class UserDto extends BaseEntity {
     private String email;
     private String password;
     private String name;

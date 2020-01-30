@@ -18,14 +18,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.DTO.LoginResponseDto;
+import com.example.myapplication.DTO.UpdatePasswordDto;
 import com.example.myapplication.DTO.UpdateUserDto;
 import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.MainActivity;
 import com.example.myapplication.async.AsyncTaskResult;
+import com.example.myapplication.async.UpdatePasswordAsyncTask;
 import com.example.myapplication.async.UpdateUserAsyncTask;
 import com.example.myapplication.service.TokenService;
 import com.santalu.maskedittext.MaskEditText;
+
+import java.util.concurrent.ExecutionException;
 
 import lombok.SneakyThrows;
 
@@ -45,6 +49,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private EditText new2Password;
     private Button changePassword;
     private TextView txtClose;
+    private TokenService tokenService;
 
 
     public ProfileFragment(UserDto userDto) {
@@ -63,6 +68,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init(){
+        tokenService = new TokenService();
         editEmail = getView().findViewById(R.id.login);
         editEmail.setEnabled(false);
         editEmail.setText(userDto.getEmail());
@@ -92,19 +98,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(newPassword.getText().toString().equals(new2Password.getText().toString())){
-                    //
-                    // userDto.setPassword(newPassword.getText().toString());
-                    Toast.makeText(getContext(),"Changed",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getContext(),"Different passwords",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         showPupUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,10 +106,45 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newPassword.getText().toString().equals(new2Password.getText().toString())
+                        && newPassword.getText().toString().equals(oldPassword.getText().toString())){
+
+                    UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto();
+                    updatePasswordDto.setOldPassword(oldPassword.getText().toString());
+                    updatePasswordDto.setNewPassword(newPassword.getText().toString());
+
+                    try {
+
+                        AsyncTaskResult<UpdatePasswordDto> result = new UpdatePasswordAsyncTask().execute(updatePasswordDto).get();
+
+                        if(result.getStatus() == 200){
+
+                            Toast.makeText(getContext(),"Changed",Toast.LENGTH_SHORT).show();
+                            tokenService.deleteTokens();
+                            startActivity(new Intent(getContext(),MainActivity.class));
+                            Toast.makeText(getContext(),"Re-login",Toast.LENGTH_SHORT).show();
+
+                        }else {
+
+                            if (result.getStatus() == 403){
+
+                                Toast.makeText(getContext(),"Wrong old password",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Toast.makeText(getContext(),"Different passwords",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void changeUser(){
-        userDto.setPassword("Test1234");
         userDto.setName(editName.getText().toString());
         userDto.setLastname(editLastName.getText().toString());
         userDto.setAddress(editAddress.getText().toString());
@@ -128,14 +156,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         changeUser();
         AsyncTaskResult<LoginResponseDto> result = new UpdateUserAsyncTask().execute(new UpdateUserDto(userDto)).get();
+
         if(result.getStatus() == 200){
+
             LoginResponseDto loginResponseDto = result.getResult();
             new TokenService().saveTokens(loginResponseDto.getRefreshToken(),loginResponseDto.getAccessToken());
 
             Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
+
         }else {
+
             Toast.makeText(getContext(),"Need to re-login",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getContext(), MainActivity.class));
         }

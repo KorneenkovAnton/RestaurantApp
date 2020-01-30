@@ -3,10 +3,13 @@ package com.example.myapplication.service;
 import com.example.myapplication.DTO.DishDto;
 import com.example.myapplication.DTO.LoginRequestDto;
 import com.example.myapplication.DTO.LoginResponseDto;
+import com.example.myapplication.DTO.OrderDto;
 import com.example.myapplication.DTO.RefreshRequestDto;
+import com.example.myapplication.DTO.UpdatePasswordDto;
 import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.DTO.TypeDto;
 
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,4 +41,13 @@ public interface JSONPlaceHolderApi {
 
     @PUT("user/update")
     Call<LoginResponseDto> updateUser(@Body UserDto userDto);
+
+    @POST("user/updatePassword")
+    Call<UpdatePasswordDto> updatePassword(@Body UpdatePasswordDto updatePasswordDto);
+
+    @POST("order/save")
+    Call<Void> saveOrder(@Body OrderDto orderDto);
+
+    @GET("order/getByUser")
+    Call<Collection<OrderDto>> getOrdersByUser();
 }

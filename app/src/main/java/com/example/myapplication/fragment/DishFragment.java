@@ -32,7 +32,7 @@ public class DishFragment extends Fragment implements View.OnClickListener {
     private Button back;
     private DishAdapter dishAdapter;
     private String typeName;
-    List<DishDto> dishDtos;
+    private List<DishDto> dishDtos;
 
     public DishFragment(String typeName) {
         this.typeName = typeName;

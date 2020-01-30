@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,15 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.DTO.OrderDto;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.OrderAdapter;
+import com.example.myapplication.async.AsyncTaskResult;
+import com.example.myapplication.async.GetUserOrdersAsyncTask;
 import com.example.myapplication.listeners.RecyclerTouchListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class OrderFragment extends Fragment {
     private RecyclerView recyclerView;
     private OrderAdapter orderAdapter;
+    private List<OrderDto> orderDtos;
 
     @Nullable
     @Override
@@ -45,7 +50,7 @@ public class OrderFragment extends Fragment {
                 new RecyclerTouchListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new OrderDetailFragment()).commit();
+                                new OrderDetailFragment(orderDtos.get(position))).commit();
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
@@ -55,10 +60,20 @@ public class OrderFragment extends Fragment {
     }
 
     public void loadOrders(){
-        Collection<OrderDto> orderDtos = new ArrayList<>();
-        orderDtos.add(new OrderDto(new Date()));
-        orderDtos.add(new OrderDto(new Date()));
-        orderDtos.add(new OrderDto(new Date()));
+
+        try {
+            AsyncTaskResult<Collection<OrderDto>> result = new GetUserOrdersAsyncTask().execute().get();
+            if(result.getStatus() == 200){
+                orderDtos = (List<OrderDto>) result.getResult();
+            }else {
+                orderDtos = new ArrayList<>();
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
+            orderDtos = new ArrayList<>();
+            e.printStackTrace();
+        }
         orderAdapter.setItems(orderDtos);
     }
 }
