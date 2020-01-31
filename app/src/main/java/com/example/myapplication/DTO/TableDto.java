@@ -8,4 +8,9 @@ public class TableDto extends BaseEntity {
     private String status;
 
     private UserDto userDto;
+
+    @Override
+    public String toString() {
+        return  name;
+    }
 }

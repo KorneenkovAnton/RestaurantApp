@@ -70,20 +70,30 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             OrderDto orderDto = new OrderDto();
             orderDto.setDate(new Date());
             int sum = 0;
+
             for (OrderDetailsDto details: cart.getDishes()
                  ) {
                 sum+=details.getNum()*details.getDish().getCost();
             }
+
             orderDto.setAmount(sum);
             orderDto.setStatus("Preparing");
-            orderDto.setInfo("Delivery");
-            orderDto.setTable(null);
+            orderDto.setTable(cart.getTable());
             orderDto.setDishes(cart.getDishes());
+
+            if(cart.getTable() != null){
+
+                orderDto.setInfo("Here");
+            }else {
+
+                orderDto.setInfo("Delivery");
+            }
 
             try {
                 if(new SaveOrderAsyncTask().execute(orderDto).get().getStatus() == 200){
                     Toast.makeText(getContext(),"Done",Toast.LENGTH_SHORT).show();
                     cart.getDishes().clear();
+                    cart.setTable(null);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container
                     ,new HomeFragment()).commit();
                 }else {
@@ -94,6 +104,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void createDishes(){

@@ -5,6 +5,7 @@ import com.example.myapplication.DTO.LoginRequestDto;
 import com.example.myapplication.DTO.LoginResponseDto;
 import com.example.myapplication.DTO.OrderDto;
 import com.example.myapplication.DTO.RefreshRequestDto;
+import com.example.myapplication.DTO.TableDto;
 import com.example.myapplication.DTO.UpdatePasswordDto;
 import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.DTO.TypeDto;
@@ -50,4 +51,7 @@ public interface JSONPlaceHolderApi {
 
     @GET("order/getByUser")
     Call<Collection<OrderDto>> getOrdersByUser();
+
+    @GET("table/getAll")
+    Call<List<TableDto>> getTables();
 }
