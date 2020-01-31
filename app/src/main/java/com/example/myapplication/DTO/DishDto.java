@@ -1,9 +1,11 @@
 package com.example.myapplication.DTO;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class DishDto extends BaseEntity{
+public class DishDto extends BaseEntity implements Serializable {
     private String name;
     private String description;
     private Integer cost;

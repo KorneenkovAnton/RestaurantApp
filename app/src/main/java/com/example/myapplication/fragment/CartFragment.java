@@ -1,6 +1,5 @@
 package com.example.myapplication.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DTO.OrderDetailsDto;
 import com.example.myapplication.DTO.OrderDto;
-import com.example.myapplication.DTO.TableDto;
-import com.example.myapplication.DTO.UserDto;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.CartAdapter;
 import com.example.myapplication.async.SaveOrderAsyncTask;
-import com.example.myapplication.async.UserAsyncTask;
 import com.example.myapplication.entity.Cart;
 import com.example.myapplication.listeners.RecyclerTouchListener;
 
@@ -76,7 +72,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             int sum = 0;
             for (OrderDetailsDto details: cart.getDishes()
                  ) {
-                sum+=details.getNum()*details.getDishDto().getCost();
+                sum+=details.getNum()*details.getDish().getCost();
             }
             orderDto.setAmount(sum);
             orderDto.setStatus("Preparing");
@@ -84,7 +80,19 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             orderDto.setTable(null);
             orderDto.setDishes(cart.getDishes());
 
-            new SaveOrderAsyncTask().execute(orderDto);
+            try {
+                if(new SaveOrderAsyncTask().execute(orderDto).get().getStatus() == 200){
+                    Toast.makeText(getContext(),"Done",Toast.LENGTH_SHORT).show();
+                    cart.getDishes().clear();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container
+                    ,new HomeFragment()).commit();
+                }else {
+                    Toast.makeText(getContext(),"Not available now",Toast.LENGTH_SHORT).show();
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

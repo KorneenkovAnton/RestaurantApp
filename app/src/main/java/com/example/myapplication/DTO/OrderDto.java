@@ -1,5 +1,6 @@
 package com.example.myapplication.DTO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class OrderDto extends BaseEntity{
     private String status;
     private String info;
     private TableDto table;
-    private List<OrderDetailsDto> dishes;
+    private List<OrderDetailsDto> dishes = new ArrayList<>();
 
     public OrderDto(Date date, Integer amount, String status, String info, TableDto table, List<OrderDetailsDto> dishes) {
         this.date = date;

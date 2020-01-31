@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.DTO.DishDto;
+import com.example.myapplication.DTO.OrderDetailsDto;
 import com.example.myapplication.DTO.OrderDto;
 import com.example.myapplication.R;
 
@@ -45,8 +47,13 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         descr = getView().findViewById(R.id.order_details_descr);
         amount = getView().findViewById(R.id.order_details_amount);
 
-        date.append(" "+ orderDto.getDate().toString());
-        descr.append(" " + orderDto.getDishes().toString());
+        date.append(" " + orderDto.getDate().toString());
+
+        for (OrderDetailsDto dish:orderDto.getDishes()
+             ) {
+            descr.append("\n" + dish.getDish().getName()+" x"+dish.getNum());
+        }
+
         amount.append(" " + orderDto.getAmount());
     }
 

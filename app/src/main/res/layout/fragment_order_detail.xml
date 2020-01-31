@@ -20,7 +20,7 @@
         android:id="@+id/order_details_descr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description"/>
+        android:text="Description:"/>
 
     <TextView
         android:id="@+id/order_details_amount"

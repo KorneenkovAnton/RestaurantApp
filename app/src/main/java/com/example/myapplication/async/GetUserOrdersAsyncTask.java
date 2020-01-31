@@ -11,14 +11,6 @@ import retrofit2.Response;
 public class GetUserOrdersAsyncTask extends CustomAsyncTask<Void,Void, Collection<OrderDto>> {
     private Response<Collection<OrderDto>> result;
 
-    public Response<Collection<OrderDto>> getResult() {
-        return result;
-    }
-
-    public void setResult(Response<Collection<OrderDto>> result) {
-        this.result = result;
-    }
-
     @SneakyThrows
     @Override
     protected AsyncTaskResult<Collection<OrderDto>> doInBackground(Void... voids) {

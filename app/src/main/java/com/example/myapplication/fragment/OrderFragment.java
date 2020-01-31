@@ -65,6 +65,7 @@ public class OrderFragment extends Fragment {
             AsyncTaskResult<Collection<OrderDto>> result = new GetUserOrdersAsyncTask().execute().get();
             if(result.getStatus() == 200){
                 orderDtos = (List<OrderDto>) result.getResult();
+
             }else {
                 orderDtos = new ArrayList<>();
             }

@@ -57,9 +57,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private TextView cartDishPrice;
 
         public void bind(OrderDetailsDto orderDetailsDto){
-            cartDishName.setText(orderDetailsDto.getDishDto().getName());
+            cartDishName.setText(orderDetailsDto.getDish().getName());
             cartDishNum.setText(String.valueOf(orderDetailsDto.getNum()));
-            cartDishPrice.setText(String.valueOf(orderDetailsDto.getDishDto().getCost()*orderDetailsDto.getNum()));
+            cartDishPrice.setText(String.valueOf(orderDetailsDto.getDish().getCost()*orderDetailsDto.getNum()));
         }
 
         public CartViewHolder(@NonNull View itemView) {

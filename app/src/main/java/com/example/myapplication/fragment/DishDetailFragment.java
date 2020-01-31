@@ -60,8 +60,16 @@ public class DishDetailFragment extends Fragment implements View.OnClickListener
         get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cart.getInstance().getDishes().add(new OrderDetailsDto(Integer.parseInt(count.getText().toString()),
-                        null,dishDto));
+                OrderDetailsDto orderDetailsDto = new OrderDetailsDto(Integer.parseInt(count.getText().toString()),
+                        null,dishDto);
+                if(Cart.getInstance().getDishes().contains(orderDetailsDto)){
+                    int index = Cart.getInstance().getDishes().indexOf(orderDetailsDto);
+                    Cart.getInstance().getDishes().get(index).setNum(Cart.getInstance().getDishes()
+                            .get(index).getNum()+orderDetailsDto.getNum());
+
+                }else {
+                    Cart.getInstance().getDishes().add(orderDetailsDto);
+                }
             }
         });
 
