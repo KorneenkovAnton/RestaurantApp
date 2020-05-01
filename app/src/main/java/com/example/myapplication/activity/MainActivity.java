@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResponse(@NonNull Call<LoginResponseDto> call, @NonNull Response<LoginResponseDto> response) {
         LoginResponseDto loginResponseDto = response.body();
 
+        System.out.println(loginResponseDto);
         if(loginResponseDto != null) {
             Intent intent = new Intent(this, Main2Activity.class);
             new TokenService().saveTokens(loginResponseDto.getRefreshToken(),loginResponseDto.getAccessToken());

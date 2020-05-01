@@ -3,20 +3,31 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/here_button"
+    <TextView
+        android:id="@+id/table_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:text="You need to select table"
         android:layout_gravity="center"
-        android:layout_marginTop="300dp"
-        android:text="Here" />
+        android:layout_marginTop="300dp"/>
+    <Button
+        android:id="@+id/here_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Here"
+        android:background="@drawable/button"
+        style="@style/buttonStyle"/>
 
     <Button
         android:id="@+id/delivery_button"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:text="delivery" />
-
+        android:text="delivery"
+        android:background="@drawable/button"
+        style="@style/buttonStyle"/>
 </LinearLayout>

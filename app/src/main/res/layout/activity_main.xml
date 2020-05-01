@@ -5,10 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/bluredback">
 
 
-
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:srcCompat="@drawable/logo2"
+        android:layout_marginHorizontal="35dp"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout_login"
@@ -20,9 +28,10 @@
         <EditText
             android:id="@+id/login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="20dp"
             android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_action_email"
             android:hint="@string/eMail"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -36,25 +45,30 @@
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="20dp"
             android:inputType="textPassword"
+            android:drawableLeft="@drawable/ic_action_password"
             android:hint="@string/password"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="@string/login_button" />
+        android:text="@string/login_button"
+        android:background="@drawable/button"
+        style="@style/buttonStyle"/>
 
     <Button
         android:id="@+id/registration_button"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="@string/registration_button" />
+        android:text="@string/registration_button"
+        android:background="@drawable/button"
+        style="@style/buttonStyle"/>
 
 </LinearLayout>

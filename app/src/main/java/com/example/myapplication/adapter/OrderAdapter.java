@@ -53,12 +53,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         notifyDataSetChanged();
     }
 
-    class OrderViewHolder extends RecyclerView.ViewHolder{
+   public class OrderViewHolder extends RecyclerView.ViewHolder{
         private TextView textView;
         private ImageButton orderDetailButton;
 
         public void bind(OrderDto orderDto){
-            textView.setText(orderDto.getDate().toString());
+            textView.setText(getFormatedDate(orderDto.getDate().toString()));
         }
 
         public OrderViewHolder(@NonNull View itemView) {
@@ -67,7 +67,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderDetailButton = itemView.findViewById(R.id.order_detail_button);
         }
 
-        private String getFormatedDate(String rawDate){
+        public String getFormatedDate(String rawDate){
             SimpleDateFormat dateFormat = new SimpleDateFormat(RESPONSE_FORMAT);
             SimpleDateFormat displayFromat = new SimpleDateFormat(MONTH_DAY_FORMAT);
             try {

@@ -8,7 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.RegistrationActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/bluredback"
+        >
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_login"
@@ -116,9 +118,11 @@
 
         <Button
             android:id="@+id/register_button"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/registration_button" />
+            android:text="@string/registration_button"
+            android:background="@drawable/button"
+            style="@style/buttonStyle"/>
     </LinearLayout>
 </ScrollView>

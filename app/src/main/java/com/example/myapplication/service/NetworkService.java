@@ -12,7 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
     private static  NetworkService instance;
-    private final String BASE_URL = "http://192.168.8.116:8080/resto/V1/";
+    private final String BASE_URL = "http://192.168.1.44:8080/resto/V1/";
+    //private final String BASE_URL = "http://192.168.8.116:8080/resto/V1/";
     //private final String BASE_URL = "http://192.168.0.118:8080/resto/V1/";
     private Retrofit retrofit;
 

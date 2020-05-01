@@ -6,6 +6,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="editTextBackground">@color/avocadoColor</item>
+        <item name="editTextColor">@color/avocadoBoneColor</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+    </style>
+
+    <style name="CameraFullscreenTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="buttonStyle" parent="Widget.AppCompat.Button.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="AppTheme.Launcher">
@@ -20,5 +36,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+    </style>
 
 </resources>

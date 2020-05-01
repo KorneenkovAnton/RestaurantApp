@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -39,8 +39,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     compileOnly 'org.projectlombok:lombok:1.18.10'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+
+    implementation 'com.google.android.gms:play-services-vision:11.8.0'
+    implementation 'info.androidhive:barcode-reader:1.1.5'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'

@@ -3,13 +3,15 @@ package com.example.myapplication.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DTO.TypeDto;
 import com.example.myapplication.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +32,13 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
     @Override
     public void onBindViewHolder(@NonNull TypeViewHolder holder, int position) {
         holder.bind(types.get(position));
+        Picasso.get().load("http://192.168.1.44:8080/resto/V1/user/getImage/"+
+                types.get(position).getImagePath())
+                .resize(400,200)
+                .centerCrop()
+                .error(R.drawable.ic_hourglass_empty_black_24dp)
+                .into(holder.imageView);
+        holder.textView.setText(types.get(position).getName());
     }
 
     @Override
@@ -48,15 +57,18 @@ public class TypeAdapter extends RecyclerView.Adapter<TypeAdapter.TypeViewHolder
     }
 
     class TypeViewHolder extends RecyclerView.ViewHolder{
-        private Button button;
+        private ImageView imageView;
+        private TextView textView;
 
         public void bind(TypeDto typeDto) {
-            button.setText(typeDto.getName());
+//            imageView.setText(typeDto.getName());
+//            Picasso.get().load(typeDto.getImagePath());
         }
 
         public TypeViewHolder(@NonNull View itemView) {
             super(itemView);
-            button = itemView.findViewById(R.id.type_button);
+            imageView = itemView.findViewById(R.id.type_image_view);
+            textView = itemView.findViewById(R.id.type_image_view_text);
         }
     }
 }

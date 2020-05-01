@@ -4,6 +4,7 @@ import com.example.myapplication.DTO.LoginResponseDto;
 import com.example.myapplication.DTO.RefreshRequestDto;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -18,7 +19,9 @@ public class AuthenticationInterceptor implements Interceptor {
         tokenService = new TokenService();
         Request original = chain.request();
         if(original.url().uri().getPath().equals("/resto/V1/auth/login")||
-                original.url().uri().getPath().equals("/resto/V1/auth/refresh")){
+                original.url().uri().getPath().equals("/resto/V1/auth/refresh") ||
+                original.url().uri().getPath().contains("/resto/V1/getImage/")
+        ){
             return chain.proceed(original);
         }
 

@@ -91,6 +91,6 @@ public class TypesFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment()).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new HomeFragment(null)).commit();
     }
 }

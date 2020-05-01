@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,12 @@ import com.example.myapplication.DTO.DishDto;
 import com.example.myapplication.DTO.OrderDetailsDto;
 import com.example.myapplication.R;
 import com.example.myapplication.entity.Cart;
+import com.squareup.picasso.Picasso;
 
 public class DishDetailFragment extends Fragment implements View.OnClickListener {
 
     private DishDto dishDto;
+    private ImageView dishImage;
     private Button back;
     private Button get;
     private String typeName;
@@ -27,7 +30,7 @@ public class DishDetailFragment extends Fragment implements View.OnClickListener
     private TextView dishDescr;
     private Button minus;
     private Button plus;
-    private EditText count;
+    private TextView count;
 
     public DishDetailFragment(DishDto dishDto, String typeName) {
         this.dishDto = dishDto;
@@ -51,41 +54,37 @@ public class DishDetailFragment extends Fragment implements View.OnClickListener
         plus = getView().findViewById(R.id.plus);
         minus = getView().findViewById(R.id.minus);
         count = getView().findViewById(R.id.count);
+        dishImage = getView().findViewById(R.id.dish_detail_image);
 
         count.setText("1");
-        dishName.setText(dishDto.getName());
+        dishName.setText(dishDto.getName()+ " " + dishDto.getCost() + "$");
         dishDescr.append(dishDto.getDescription());
         back.setOnClickListener(this);
+        Picasso.get().load("http://192.168.1.44:8080/resto/V1/user/getImage/"+
+                dishDto.getImagePath())
+                .resize(400,200)
+                .centerCrop()
+                .error(R.drawable.ic_hourglass_empty_black_24dp)
+                .into(dishImage);
 
-        get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OrderDetailsDto orderDetailsDto = new OrderDetailsDto(Integer.parseInt(count.getText().toString()),
-                        null,dishDto);
-                if(Cart.getInstance().getDishes().contains(orderDetailsDto)){
-                    int index = Cart.getInstance().getDishes().indexOf(orderDetailsDto);
-                    Cart.getInstance().getDishes().get(index).setNum(Cart.getInstance().getDishes()
-                            .get(index).getNum()+orderDetailsDto.getNum());
+        get.setOnClickListener(v -> {
+            OrderDetailsDto orderDetailsDto = new OrderDetailsDto(Integer.parseInt(count.getText().toString()),
+                    null,dishDto);
+            if(Cart.getInstance().getDishes().contains(orderDetailsDto)){
+                int index = Cart.getInstance().getDishes().indexOf(orderDetailsDto);
+                Cart.getInstance().getDishes().get(index).setNum(Cart.getInstance().getDishes()
+                        .get(index).getNum()+orderDetailsDto.getNum());
 
-                }else {
-                    Cart.getInstance().getDishes().add(orderDetailsDto);
-                }
+            }else {
+                Cart.getInstance().getDishes().add(orderDetailsDto);
             }
         });
 
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                count.setText(String.valueOf(Integer.parseInt(count.getText().toString())+1));
-            }
-        });
+        plus.setOnClickListener(v -> count.setText(String.valueOf(Integer.parseInt(count.getText().toString())+1)));
 
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Integer.parseInt(count.getText().toString())>1){
-                    count.setText(String.valueOf(Integer.parseInt(count.getText().toString())-1));
-                }
+        minus.setOnClickListener(v -> {
+            if(Integer.parseInt(count.getText().toString())>1){
+                count.setText(String.valueOf(Integer.parseInt(count.getText().toString())-1));
             }
         });
     }

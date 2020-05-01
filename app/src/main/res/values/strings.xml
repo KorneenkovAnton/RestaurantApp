@@ -17,7 +17,7 @@
     <string name="err_msg_wrong_login_or_password">Wrong login or password</string>
     <string name="err_msg_connection_timed_out">Connection timed out</string>
     <string name="err_msg_server_error">Server error</string>
-    <string name="err_validation_exception">Fill in all the fields</string>
+    <string name="err_validation_exception">Fill in all fields</string>
     <string name="title_activity_menu" translatable="false">MenuActivity</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -25,4 +25,5 @@
     <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_settings" translatable="false">Settings</string>
+
 </resources>

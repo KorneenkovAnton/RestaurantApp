@@ -8,6 +8,7 @@
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
     tools:context=".activity.Main2Activity"
+    android:background="@drawable/bluredback"
     >
 
     <LinearLayout

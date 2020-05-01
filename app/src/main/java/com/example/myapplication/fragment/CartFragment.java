@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.example.myapplication.adapter.CartAdapter;
 import com.example.myapplication.async.SaveOrderAsyncTask;
 import com.example.myapplication.entity.Cart;
 import com.example.myapplication.listeners.RecyclerTouchListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +34,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     private Button get;
     private CartAdapter cartAdapter;
     private Cart cart;
+    private TextView sumText;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         get = getView().findViewById(R.id.cart_get);
         back = getView().findViewById(R.id.cart_back);
         back.setOnClickListener(this);
+        sumText = getView().findViewById(R.id.cart_sum);
+        sumText.setText("Order price: "+cart.getDishes().stream().mapToInt(x->x.getDish().getCost()*x.getNum()).sum()+"$");
+
         cartAdapter = new CartAdapter();
         recyclerView.setAdapter(cartAdapter);
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView ,
@@ -82,7 +88,6 @@ public class CartFragment extends Fragment implements View.OnClickListener {
             orderDto.setDishes(cart.getDishes());
 
             if(cart.getTable() != null){
-
                 orderDto.setInfo("Here");
             }else {
 
@@ -95,7 +100,7 @@ public class CartFragment extends Fragment implements View.OnClickListener {
                     cart.getDishes().clear();
                     cart.setTable(null);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container
-                    ,new HomeFragment()).commit();
+                    ,new HomeFragment(null)).commit();
                 }else {
                     Toast.makeText(getContext(),"Not available now",Toast.LENGTH_SHORT).show();
                 }
@@ -121,5 +126,6 @@ public class CartFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new TypesFragment()).commit();
+        ((FloatingActionButton)getActivity().findViewById(R.id.fab)).show();
     }
 }

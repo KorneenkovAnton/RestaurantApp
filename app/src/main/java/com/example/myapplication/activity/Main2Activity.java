@@ -43,9 +43,15 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         init();
+        Intent intent = getIntent();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        if(intent != null && intent.hasExtra("table")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment(intent.getExtras().getString("table"))).commit();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment(null)).commit();
+        }
         navigationView.setCheckedItem(R.id.main);
         floatingActionButton.show();
     }
@@ -90,7 +96,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
             case R.id.main:{
                 floatingActionButton.show();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeFragment()).commit();
+                        new HomeFragment(null)).commit();
                 break;
             }
             case R.id.logout:{

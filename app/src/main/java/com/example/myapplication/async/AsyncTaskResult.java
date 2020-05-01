@@ -1,8 +1,10 @@
 package com.example.myapplication.async;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class AsyncTaskResult<T> {
     private T result;
     private int status;

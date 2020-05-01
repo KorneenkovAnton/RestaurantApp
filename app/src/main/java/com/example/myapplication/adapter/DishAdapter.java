@@ -3,13 +3,15 @@ package com.example.myapplication.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DTO.DishDto;
 import com.example.myapplication.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +32,13 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
     @Override
     public void onBindViewHolder(@NonNull DishViewHolder holder, int position) {
         holder.bind(dishDtos.get(position));
+        Picasso.get().load("http://192.168.1.44:8080/resto/V1/user/getImage/"+
+                dishDtos.get(position).getImagePath())
+                .resize(400,200)
+                .centerCrop()
+                .error(R.drawable.ic_hourglass_empty_black_24dp)
+                .into(holder.imageView);
+        holder.textView.setText(dishDtos.get(position).getName());
     }
 
     @Override
@@ -48,15 +57,17 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
     }
 
     class DishViewHolder extends RecyclerView.ViewHolder{
-        private Button button;
+        private ImageView imageView;
+        private TextView textView;
 
         public void bind(DishDto dishDto) {
-            button.setText(dishDto.getName());
+//            imageView.setText(dishDto.getName());
         }
 
         public DishViewHolder(@NonNull View itemView) {
             super(itemView);
-            button = itemView.findViewById(R.id.type_button);
+            imageView = itemView.findViewById(R.id.type_image_view);
+            textView = itemView.findViewById(R.id.type_image_view_text);
         }
     }
 }

@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).commit();
+                    new HomeFragment(null)).commit();
 
         }else {
 
