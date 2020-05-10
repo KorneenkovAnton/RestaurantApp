@@ -13,6 +13,9 @@
         <item android:id="@+id/orders"
             android:icon="@drawable/ic_reorder_black_24dp"
             android:title="My Orders"/>
+        <item android:id="@+id/reserve_table"
+            android:icon="@drawable/ic_restaurant_menu_black_24dp"
+            android:title="Table reserve"/>
         <item android:id="@+id/logout" android:title="Logout"/>
     </group>
 </menu>

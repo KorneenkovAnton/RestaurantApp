@@ -20,7 +20,7 @@
             android:id="@id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/avocadoBoneColor"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -36,8 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                app:backgroundTint="#4CAF50"
-                app:rippleColor="#009688"
+                app:backgroundTint="@color/avocadoBoneColor"
+                app:rippleColor="@color/avocadoBoneColor"
                 app:srcCompat="@drawable/ic_shopping_cart_black_24dp" />
         </FrameLayout>
 
@@ -49,6 +49,7 @@
         android:layout_gravity="start"
         android:id="@+id/nav_view"
         app:headerLayout="@layout/nav_header_menu"
-        app:menu="@menu/menu"/>
+        app:menu="@menu/menu"
+        android:background="@color/avocadoColor"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

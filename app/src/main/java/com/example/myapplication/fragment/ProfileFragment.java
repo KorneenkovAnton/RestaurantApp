@@ -91,55 +91,44 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         changePassword = changePasswordDialog.findViewById(R.id.update_password_button);
         txtClose = changePasswordDialog.findViewById(R.id.txt_close);
 
-        txtClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changePasswordDialog.dismiss();
-            }
+        txtClose.setOnClickListener(v -> changePasswordDialog.dismiss());
+
+        showPupUp.setOnClickListener(v -> {
+            changePasswordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            changePasswordDialog.show();
         });
 
-        showPupUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changePasswordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                changePasswordDialog.show();
-            }
-        });
+        changePassword.setOnClickListener(v -> {
+            if(newPassword.getText().toString().equals(new2Password.getText().toString())
+                    && newPassword.getText().toString().equals(oldPassword.getText().toString())){
 
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(newPassword.getText().toString().equals(new2Password.getText().toString())
-                        && newPassword.getText().toString().equals(oldPassword.getText().toString())){
+                UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto();
+                updatePasswordDto.setOldPassword(oldPassword.getText().toString());
+                updatePasswordDto.setNewPassword(newPassword.getText().toString());
 
-                    UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto();
-                    updatePasswordDto.setOldPassword(oldPassword.getText().toString());
-                    updatePasswordDto.setNewPassword(newPassword.getText().toString());
+                try {
 
-                    try {
+                    AsyncTaskResult<UpdatePasswordDto> result = new UpdatePasswordAsyncTask().execute(updatePasswordDto).get();
 
-                        AsyncTaskResult<UpdatePasswordDto> result = new UpdatePasswordAsyncTask().execute(updatePasswordDto).get();
+                    if(result.getStatus() == 200){
 
-                        if(result.getStatus() == 200){
+                        Toast.makeText(getContext(),"Changed",Toast.LENGTH_SHORT).show();
+                        tokenService.deleteTokens();
+                        startActivity(new Intent(getContext(),MainActivity.class));
+                        Toast.makeText(getContext(),"Re-login",Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(getContext(),"Changed",Toast.LENGTH_SHORT).show();
-                            tokenService.deleteTokens();
-                            startActivity(new Intent(getContext(),MainActivity.class));
-                            Toast.makeText(getContext(),"Re-login",Toast.LENGTH_SHORT).show();
+                    }else {
 
-                        }else {
+                        if (result.getStatus() == 403){
 
-                            if (result.getStatus() == 403){
-
-                                Toast.makeText(getContext(),"Wrong old password",Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(getContext(),"Wrong old password",Toast.LENGTH_SHORT).show();
                         }
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
                     }
-                }else {
-                    Toast.makeText(getContext(),"Different passwords",Toast.LENGTH_SHORT).show();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }else {
+                Toast.makeText(getContext(),"Different passwords",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">My Restaurant</string>
     <string name="eMail">eMail</string>
     <string name="password">Password</string>
     <string name="name">Name</string>
@@ -20,9 +20,9 @@
     <string name="err_validation_exception">Fill in all fields</string>
     <string name="title_activity_menu" translatable="false">MenuActivity</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-    <string name="nav_header_title" translatable="false">Android Studio</string>
-    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigatio n drawer</string>
+    <string name="nav_header_title" translatable="false">Hello, dear Guest</string>
+    <string name="nav_header_subtitle" translatable="false">For more information call: +77771090041</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_settings" translatable="false">Settings</string>
 

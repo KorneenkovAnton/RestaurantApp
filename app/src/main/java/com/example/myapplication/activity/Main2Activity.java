@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.example.myapplication.fragment.CartFragment;
 import com.example.myapplication.fragment.HomeFragment;
 import com.example.myapplication.fragment.OrderFragment;
 import com.example.myapplication.fragment.ProfileFragment;
+import com.example.myapplication.fragment.ReserveTableFragment;
 import com.example.myapplication.service.TokenService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -103,6 +105,12 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
                 tokenService.deleteTokens();
                 floatingActionButton.hide();
                 startActivity(new Intent(this, MainActivity.class));
+                break;
+            }
+            case R.id.reserve_table:{
+                floatingActionButton.hide();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ReserveTableFragment()).commit();
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START);

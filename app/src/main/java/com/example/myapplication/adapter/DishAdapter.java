@@ -25,20 +25,13 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
     @Override
     public DishViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.rest_menu_item_view,parent,false);
+                .inflate(R.layout.dish_menu_item_view,parent,false);
         return new DishAdapter.DishViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DishViewHolder holder, int position) {
         holder.bind(dishDtos.get(position));
-        Picasso.get().load("http://192.168.1.44:8080/resto/V1/user/getImage/"+
-                dishDtos.get(position).getImagePath())
-                .resize(400,200)
-                .centerCrop()
-                .error(R.drawable.ic_hourglass_empty_black_24dp)
-                .into(holder.imageView);
-        holder.textView.setText(dishDtos.get(position).getName());
     }
 
     @Override
@@ -60,14 +53,22 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.DishViewHolder
         private ImageView imageView;
         private TextView textView;
 
+
         public void bind(DishDto dishDto) {
-//            imageView.setText(dishDto.getName());
+
+            Picasso.get().load("http://192.168.1.44:8080/resto/V1/user/getImage/"+
+                    dishDto.getImagePath())
+                    .resize(400,200)
+                    .centerCrop()
+                    .error(R.drawable.ic_hourglass_empty_black_24dp)
+                    .into(imageView);
+            textView.setText("Name: "+dishDto.getName()+"\nCost: "+dishDto.getCost());
         }
 
         public DishViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.type_image_view);
-            textView = itemView.findViewById(R.id.type_image_view_text);
+            imageView = itemView.findViewById(R.id.dish_menu_item_image_view);
+            textView = itemView.findViewById(R.id.dish_menu_item_text_view);
         }
     }
 }

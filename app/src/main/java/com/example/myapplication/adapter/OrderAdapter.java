@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.DTO.OrderDto;
 import com.example.myapplication.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +20,6 @@ import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
-    private static final String RESPONSE_FORMAT = "EEE MMM dd HH:mm";
     private static final String MONTH_DAY_FORMAT = "MMM d";
     private List<OrderDto> orderDtos = new ArrayList<>();
 
@@ -58,7 +56,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         private ImageButton orderDetailButton;
 
         public void bind(OrderDto orderDto){
-            textView.setText(getFormatedDate(orderDto.getDate().toString()));
+            textView.setText(getFormatedDate(orderDto.getDate()));
         }
 
         public OrderViewHolder(@NonNull View itemView) {
@@ -67,16 +65,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderDetailButton = itemView.findViewById(R.id.order_detail_button);
         }
 
-        public String getFormatedDate(String rawDate){
-            SimpleDateFormat dateFormat = new SimpleDateFormat(RESPONSE_FORMAT);
+        public String getFormatedDate(Date date){
             SimpleDateFormat displayFromat = new SimpleDateFormat(MONTH_DAY_FORMAT);
-            try {
-                Date date = dateFormat.parse(rawDate);
-                return displayFromat.format(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+            return displayFromat.format(date);
         }
     }
 }

@@ -55,7 +55,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         descr = getView().findViewById(R.id.order_details_descr);
         amount = getView().findViewById(R.id.order_details_amount);
 
-        date.append(" " + new OrderAdapter().new OrderViewHolder(getView()).getFormatedDate(orderDto.getDate().toString()));
+        date.append(" " + new OrderAdapter().new OrderViewHolder(getView()).getFormatedDate(orderDto.getDate()));
 
         for (OrderDetailsDto dish:orderDto.getDishes()
              ) {
